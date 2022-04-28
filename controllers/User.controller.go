@@ -34,7 +34,7 @@ func GetUserById(c *gin.Context) {
 
 func GetUserByEmail_(email string) m.User {
 	var user m.User
-	m.Db.Preload("UserAllowed").Where("email = ?", email).First(&user)
+	m.Db.Preload("Application").Where(&m.User{Email: email}).First(&user)
 
 	return user
 }
@@ -56,23 +56,23 @@ func DeleteUserById(c *gin.Context) {
 	m.Db.Delete(&m.User{}, id)
 }
 
-func GetUserAllowed(c *gin.Context) {
-	var userAllowed []m.UserAllowed
-	m.Db.Preload("Application").Find(&userAllowed)
+func GetUserApplications(c *gin.Context) {
+	var userApplications []m.Application
+	m.Db.Preload("Application").Find(&userApplications)
 
-	c.JSON(http.StatusOK, userAllowed)
+	c.JSON(http.StatusOK, userApplications)
 }
 
-func GetUserAllowedByEmail_(email string) []m.UserAllowed {
-	var userAllowed []m.UserAllowed
-	m.Db.Preload("Application").Joins("User", m.Db.Where(&m.User{Email: email})).Find(&userAllowed)
+func GetUserApplicationsByEmail_(email string) []m.Application {
+	var user m.User
+	m.Db.Preload("Applications").Find(&user, &m.User{Email: email})
 
-	return userAllowed
+	return user.Applications
 }
 
-func GetUserAllowedByEmail(c *gin.Context) {
+func GetUserApplicationsByEmail(c *gin.Context) {
 	email, _ := c.Params.Get("email")
-	user := GetUserAllowedByEmail_(email)
+	user := GetUserApplicationsByEmail_(email)
 
 	c.JSON(http.StatusOK, user)
 }

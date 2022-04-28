@@ -13,6 +13,6 @@ func SetUserRoutes(router *gin.RouterGroup) {
 	router.DELETE("/:id", u.TokenChecker(), c.DeleteUserById)
 	router.GET("/:id", c.GetUserById)
 	router.GET("/email/:email", c.GetUserByEmail)
-	router.GET("/email/:email/allowed", c.GetUserAllowedByEmail)
-	router.GET("/:id/allowed", c.GetUserAllowed)
+	router.GET("/email/:email/allowed", c.GetUserApplicationsByEmail)
+	router.GET("/:id/allowed", c.GetUserApplications)
 }

@@ -18,7 +18,6 @@ func ConnectDB() {
 
 	gormDB.AutoMigrate(&User{})
 	gormDB.AutoMigrate(&Application{})
-	gormDB.AutoMigrate(&UserAllowed{})
 	if err != nil {
 		fmt.Println(err)
 	}

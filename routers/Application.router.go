@@ -7,10 +7,10 @@ import (
 )
 
 func SetApplicationRoutes(router *gin.RouterGroup) {
-	router.POST("/application", u.TokenChecker(), c.CreateApplication)
-	router.PUT("/application/:id", u.TokenChecker(), c.UpdateApplicationById)
-	router.DELETE("/application/:id", u.TokenChecker(), c.DeleteApplicationById)
+	router.POST("", u.TokenChecker(), c.CreateApplication)
+	router.PUT("/:id", u.TokenChecker(), c.UpdateApplicationById)
+	router.DELETE("/:id", u.TokenChecker(), c.DeleteApplicationById)
 
-	router.GET("/application", c.GetApplications)
-	router.GET("/application/:id", c.GetApplicationById)
+	router.GET("", c.GetApplications)
+	router.GET("/:id", c.GetApplicationById)
 }
