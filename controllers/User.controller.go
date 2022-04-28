@@ -32,6 +32,15 @@ func GetUserById(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+func GetUserByEmail(c *gin.Context) {
+	email, _ := c.Params.Get("email")
+
+	var user m.User
+	m.Db.Where("email = ?", email).First(&user)
+
+	c.JSON(http.StatusOK, user)
+}
+
 func UpdateUserById(c *gin.Context) {
 	CreateUser(c)
 }
@@ -43,9 +52,17 @@ func DeleteUserById(c *gin.Context) {
 }
 
 func GetUserAllowed(c *gin.Context) {
-	// Join users with applications using allowed table
 	var userAllowed []m.UserAllowed
 	m.Db.Preload("Application").Find(&userAllowed)
+
+	c.JSON(http.StatusOK, userAllowed)
+}
+
+func GetUserAllowedByEmail(c *gin.Context) {
+	email, _ := c.Params.Get("email")
+
+	var userAllowed []m.UserAllowed
+	m.Db.Preload("Application").Joins("User", m.Db.Where(&m.User{Email: email})).Find(&userAllowed)
 
 	c.JSON(http.StatusOK, userAllowed)
 }
