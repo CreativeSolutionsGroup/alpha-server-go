@@ -1,30 +1,29 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"log"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/joho/godotenv"
+	m "github.com/spbills/alpha-server/models"
+	r "github.com/spbills/alpha-server/routers"
 )
 
-func ConnectDB() *gorm.DB {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"))
-	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+func InitDotenv() {
+	err := godotenv.Load()
 	if err != nil {
-		panic(err)
+		log.Fatal("Error loading .env file")
 	}
-	return gormDB
 }
 
-func CloseDB(db *gorm.DB) {
-	// todo
+func InitRouters(router *gin.RouterGroup) {
+	r.SetUserRoutes(router)
 }
 
 func main() {
-	router := gin.Default()
-	db := ConnectDB()
-	router.Run()
-	CloseDB(db)
+	engine := gin.Default()
+	InitRouters(&engine.RouterGroup)
+	InitDotenv()
+	m.ConnectDB()
+	engine.Run()
 }

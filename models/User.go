@@ -1,9 +1,13 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/lib/pq"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Id      int            `json:"id" gorm:"primaryKey"`
+	Email   string         `json:"email"`
+	Allowed pq.StringArray `gorm:"type:text[]" json:"allowed"`
 }
