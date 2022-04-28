@@ -20,7 +20,7 @@ func CreateApplication(c *gin.Context) {
 func GetApplications(c *gin.Context) {
 	var Applications []m.Application
 	m.Db.Find(&Applications)
-	c.JSON(200, Applications)
+	c.JSON(http.StatusOK, Applications)
 }
 
 func GetApplicationById(c *gin.Context) {
@@ -29,7 +29,7 @@ func GetApplicationById(c *gin.Context) {
 	var application m.Application
 	m.Db.First(&application, id)
 
-	c.JSON(200, application)
+	c.JSON(http.StatusOK, application)
 }
 
 func UpdateApplicationById(c *gin.Context) {

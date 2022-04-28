@@ -20,7 +20,7 @@ func CreateUser(c *gin.Context) {
 func GetUsers(c *gin.Context) {
 	var users []m.User
 	m.Db.Find(&users)
-	c.JSON(200, users)
+	c.JSON(http.StatusOK, users)
 }
 
 func GetUserById(c *gin.Context) {
@@ -29,7 +29,7 @@ func GetUserById(c *gin.Context) {
 	var user m.User
 	m.Db.First(&user, id)
 
-	c.JSON(200, user)
+	c.JSON(http.StatusOK, user)
 }
 
 func UpdateUserById(c *gin.Context) {
@@ -45,7 +45,7 @@ func DeleteUserById(c *gin.Context) {
 func GetUserAllowed(c *gin.Context) {
 	// Join users with applications using allowed table
 	var userAllowed []m.UserAllowed
-	m.Db.Preload("User").Preload("Application").Find(&userAllowed)
+	m.Db.Preload("Application").Find(&userAllowed)
 
-	c.JSON(200, userAllowed)
+	c.JSON(http.StatusOK, userAllowed)
 }
