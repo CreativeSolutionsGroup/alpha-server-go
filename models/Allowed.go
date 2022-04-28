@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -11,6 +13,9 @@ type UserAllowed struct {
 	User          User
 	ApplicationID int `json:"ApplicationID"`
 	Application   Application
+	CreatedAt     time.Time `json:"CreatedAt"`
+	UpdatedAt     time.Time `json:"UpdatedAt"`
+	DeletedAt     time.Time `json:"DeletedAt"`
 }
 
 type UserAllowedInput struct {
