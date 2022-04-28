@@ -32,11 +32,16 @@ func GetUserById(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+func GetUserByEmail_(email string) m.User {
+	var user m.User
+	m.Db.Preload("UserAllowed").Where("email = ?", email).First(&user)
+
+	return user
+}
+
 func GetUserByEmail(c *gin.Context) {
 	email, _ := c.Params.Get("email")
-
-	var user m.User
-	m.Db.Where("email = ?", email).First(&user)
+	user := GetUserByEmail_(email)
 
 	c.JSON(http.StatusOK, user)
 }
@@ -58,11 +63,16 @@ func GetUserAllowed(c *gin.Context) {
 	c.JSON(http.StatusOK, userAllowed)
 }
 
-func GetUserAllowedByEmail(c *gin.Context) {
-	email, _ := c.Params.Get("email")
-
+func GetUserAllowedByEmail_(email string) []m.UserAllowed {
 	var userAllowed []m.UserAllowed
 	m.Db.Preload("Application").Joins("User", m.Db.Where(&m.User{Email: email})).Find(&userAllowed)
 
-	c.JSON(http.StatusOK, userAllowed)
+	return userAllowed
+}
+
+func GetUserAllowedByEmail(c *gin.Context) {
+	email, _ := c.Params.Get("email")
+	user := GetUserAllowedByEmail_(email)
+
+	c.JSON(http.StatusOK, user)
 }
