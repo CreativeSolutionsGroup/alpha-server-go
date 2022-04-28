@@ -17,6 +17,8 @@ func ConnectDB() {
 	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	gormDB.AutoMigrate(&User{})
+	gormDB.AutoMigrate(&Application{})
+	gormDB.AutoMigrate(&UserAllowed{})
 	if err != nil {
 		fmt.Println(err)
 	}

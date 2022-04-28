@@ -18,6 +18,7 @@ func InitDotenv() {
 
 func InitRouters(router *gin.RouterGroup) {
 	r.SetUserRoutes(router)
+	r.SetApplicationRoutes(router)
 }
 
 func main() {
