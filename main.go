@@ -17,14 +17,16 @@ func InitDotenv() {
 }
 
 func InitRouters(router *gin.RouterGroup) {
-	r.SetUserRoutes(router)
-	r.SetApplicationRoutes(router)
+	userRouter := router.Group("/user")
+	r.SetUserRoutes(userRouter)
+	applicationRouter := router.Group("/application")
+	r.SetApplicationRoutes(applicationRouter)
 }
 
 func main() {
 	engine := gin.Default()
-	InitRouters(&engine.RouterGroup)
 	InitDotenv()
 	m.ConnectDB()
+	InitRouters(&engine.RouterGroup)
 	engine.Run()
 }
