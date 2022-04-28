@@ -6,6 +6,6 @@ import (
 
 type Application struct {
 	gorm.Model
-	Id   int    `json:"id" gorm:"primaryKey"`
-	Uuid string `json:"uuid"`
+	ID   int    `json:"ID"`
+	UUID string `json:"UUID"`
 }

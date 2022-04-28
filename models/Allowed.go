@@ -6,15 +6,15 @@ import (
 
 type UserAllowed struct {
 	gorm.Model
-	Id            int `json:"id" gorm:"primaryKey"`
-	UserId        int `json:"user_id"`
+	ID            int `json:"ID"`
+	UserID        int `json:"UserID"`
 	User          User
-	ApplicationId int `json:"application_id"`
+	ApplicationID int `json:"ApplicationID"`
 	Application   Application
 }
 
 type UserAllowedInput struct {
-	Id            int `json:"id" gorm:"primaryKey"`
-	UserId        int `json:"user_id"`
-	ApplicationId int `json:"application_id"`
+	ID            int `json:"ID"`
+	UserID        int `json:"UserID"`
+	ApplicationID int `json:"ApplicationID"`
 }
