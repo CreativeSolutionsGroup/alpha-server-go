@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Users are users that are authorized to use a given set of applications.
 type User struct {
 	gorm.Model
 	ID           int           `json:"ID"`

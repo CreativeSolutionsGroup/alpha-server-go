@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// An application is a certain app that a user is allowed to access.
+// Many 2 many with users.
 type Application struct {
 	gorm.Model
 	ID        int        `json:"ID"`

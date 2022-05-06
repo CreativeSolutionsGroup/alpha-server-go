@@ -6,6 +6,8 @@ import (
 	u "github.com/spbills/alpha-server/utils"
 )
 
+// Adds the application routes to the router.
+// Applications are apps that certain users are authroized to use.
 func SetApplicationRoutes(router *gin.RouterGroup) {
 	router.POST("", u.TokenChecker(), c.CreateApplication)
 	router.PUT("/:id", u.TokenChecker(), c.UpdateApplicationById)
