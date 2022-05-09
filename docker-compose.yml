@@ -9,6 +9,9 @@ services:
       - DB_NAME=alpha
       - DB_HOST=db
       - DB_PORT=5432
+      - GIN_MODE=release
+      - PORT=8080
+      - API_KEY=6S2ESAPieIPYmUsbksHOdDLqkSJ9xbHwXZyu1sBIKS876OQt3RDId3DLmg87sLllvwbfF9cf4B06UzUqi8P0ADb96DROciI1w0wSmyFRRouKKdcYdQR0IyXvrV1SrJCp
     ports:
       - 8080:8080
   db:
