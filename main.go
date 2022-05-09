@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -10,9 +13,11 @@ import (
 )
 
 func InitDotenv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	if os.Getenv("GIN_MODE") != "release" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
 	}
 }
 
@@ -23,10 +28,22 @@ func InitRouters(router *gin.RouterGroup) {
 	r.SetApplicationRoutes(applicationRouter)
 }
 
+func InitDatabases() {
+	err := m.ConnectDB()
+
+	if err != nil {
+		fmt.Println("Failed to connect to database. Trying again.")
+		time.Sleep(time.Second)
+		InitDatabases()
+	}
+}
+
 func main() {
 	engine := gin.Default()
 	InitDotenv()
-	m.ConnectDB()
+	InitDatabases()
 	InitRouters(&engine.RouterGroup)
+
+	fmt.Println("Successfully connected to database and initialized routers.")
 	engine.Run()
 }

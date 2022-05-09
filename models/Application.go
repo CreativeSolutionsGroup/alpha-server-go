@@ -11,7 +11,8 @@ import (
 type Application struct {
 	gorm.Model
 	ID        int        `json:"ID"`
-	UUID      string     `json:"UUID"`
+	Alias     string     `json:"Alias"`
+	UUID      string     `json:"UUID" gorm:"unique"`
 	Users     []User     `gorm:"many2many:user_alloweds;" json:"Users"`
 	CreatedAt *time.Time `json:"CreatedAt"`
 	UpdatedAt *time.Time `json:"UpdatedAt"`

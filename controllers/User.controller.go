@@ -14,7 +14,12 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	m.Db.Save(&userInput)
+	if err := m.Db.Create(&userInput).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, userInput)
 }
 
 func GetUsers(c *gin.Context) {
@@ -47,7 +52,18 @@ func GetUserByEmail(c *gin.Context) {
 }
 
 func UpdateUserById(c *gin.Context) {
-	CreateUser(c)
+	var userInput m.User
+	if err := c.ShouldBindJSON(&userInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := m.Db.Save(&userInput).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, userInput)
 }
 
 func DeleteUserById(c *gin.Context) {

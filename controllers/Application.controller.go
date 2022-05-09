@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	m "github.com/spbills/alpha-server/models"
 )
 
@@ -14,7 +15,16 @@ func CreateApplication(c *gin.Context) {
 		return
 	}
 
-	m.Db.Save(&applicationInput)
+	if applicationInput.UUID == "" {
+		applicationInput.UUID = uuid.New().String()
+	}
+
+	if err := m.Db.Create(&applicationInput).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, applicationInput)
 }
 
 func GetApplications(c *gin.Context) {
@@ -33,7 +43,18 @@ func GetApplicationById(c *gin.Context) {
 }
 
 func UpdateApplicationById(c *gin.Context) {
-	CreateApplication(c)
+	var applicationInput m.Application
+	if err := c.ShouldBindJSON(&applicationInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := m.Db.Save(&applicationInput).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, applicationInput)
 }
 
 func DeleteApplicationById(c *gin.Context) {
